@@ -28,7 +28,7 @@
 
         .header-bg {
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), 
-                        url('https://images.unsplash.com/photo-1599481238640-4c1288750d7a?q=80&w=1200&auto=format&fit=crop');
+                        url('portada.jpg'); /* ESTO BUSCA TU ARCHIVO EN GITHUB */
             background-size: cover;
             background-position: center;
         }
@@ -94,8 +94,9 @@
     <!-- Header / Portada Elegante -->
     <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden">
         <div class="relative z-10 flex flex-col items-center">
-            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl mb-4 p-1 border-2 border-orange-100">
-                <div class="w-full h-full rounded-full border border-orange-200 flex flex-col items-center justify-center bg-white overflow-hidden">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl mb-4 p-1 border-2 border-orange-100 overflow-hidden">
+                <img src="logo.png" alt="Logo" class="w-full h-full object-contain" onerror="this.style.display='none'">
+                <div class="w-full h-full flex items-center justify-center bg-white" id="logo-fallback">
                     <svg viewBox="0 0 24 24" class="w-8 h-8 text-[#5C2E0E]" fill="currentColor">
                         <path d="M12,2C15.31,2 18,4.69 18,8C18,12.03 12,22 12,22C12,22 6,12.03 6,8C6,4.69 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,4C9.79,4 8,5.79 8,8C8,11.19 12,18 12,18C12,18 16,11.19 16,8C16,5.79 14.21,4 12,4Z" opacity="0.1"/>
                         <path d="M12,2C10.89,2 10,2.89 10,4C10,5.11 10.89,6 12,6C13.11,6 14,5.11 14,4C14,2.89 13.11,2 12,2M12,22C12,22 19,13 19,8C19,4.13 15.87,1 12,1C8.13,1 5,4.13 5,8C5,13 12,22 12,22M12,3C14.76,3 17,5.24 17,8C17,11.38 13.11,17.43 12,19C10.89,17.43 7,11.38 7,8C7,5.24 9.24,3 12,3Z" />
@@ -132,7 +133,8 @@
     <section class="mt-20 px-6 mb-12">
         <div class="text-center mb-6">
             <h2 class="font-serif text-2xl font-black text-[#5C2E0E]">¿Esperando tu pedido?</h2>
-            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">¡Diviértete un poco!</p>
+            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">¡Elimina filas para subir de nivel!</p>
+            <p id="tetris-level" class="text-[12px] font-black text-[#BC6C25] mt-1 uppercase">Nivel 1</p>
         </div>
         
         <div class="bg-white p-6 rounded-[2.5rem] shadow-xl border border-orange-50 relative">
@@ -218,30 +220,31 @@
     </div>
 
     <!-- Alert Custom -->
-    <div id="custom-alert" class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] hidden w-[90%] max-sm">
-        <div class="bg-[#5C2E0E] text-white px-8 py-4 rounded-3xl shadow-2xl font-bold flex items-center justify-center border-2 border-white/10 text-center">
-            <span id="alert-text" class="text-sm">Mensaje</span>
+    <div id="custom-alert" class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] hidden w-[90%] max-w-sm">
+        <div class="bg-[#5C2E0E] text-white px-8 py-4 rounded-3xl shadow-2xl font-bold flex items-center justify-center border-2 border-white/10 text-center uppercase text-xs">
+            <span id="alert-text">Mensaje</span>
         </div>
     </div>
 
     <script>
         const WHATSAPP_NUMBER = "593992228270";
 
+        // CONFIGURACIÓN DE IMÁGENES LOCALES
         const menuItems = [
-            { id: 1, category: 'Principal', name: 'Conchas Asadas Clásicas', price: 7.00, desc: 'Conchas asadas al carbón, patacones y ensalada.', img: 'https://images.unsplash.com/photo-1599481238640-4c1288750d7a?q=80&w=600&auto=format&fit=crop' },
-            { id: 2, category: 'Principal', name: 'Combo Conchas Especial', price: 8.50, desc: 'Conchas + arroz, menestra, patacones y ensalada.', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&auto=format&fit=crop' },
-            { id: 3, category: 'Brochetas', name: 'Pincho de Pollo Completo', price: 3.00, desc: 'Con arroz, menestra y patacones crujientes.', img: 'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?q=80&w=600&auto=format&fit=crop' },
-            { id: 4, category: 'Brochetas', name: 'Solo Pincho Pollo', price: 1.50, desc: 'Brocheta de pollo asada al momento.', img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=600&auto=format&fit=crop' },
-            { id: 5, category: 'Brochetas', name: 'Brocheta de Camarones', price: 4.00, desc: 'Camarones seleccionados con arroz o patacones.', img: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?q=80&w=600&auto=format&fit=crop' },
-            { id: 6, category: 'Brochetas', name: 'Mixta (Pollo/Carne/Chorizo)', price: 4.00, desc: 'Combinación clásica con guarnición completa.', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop' },
-            { id: 7, category: 'Brochetas', name: 'Mixta (Pollo/Carne/Camarón)', price: 4.00, desc: 'Lo mejor de mar y tierra con arroz.', img: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?q=80&w=600&auto=format&fit=crop' },
-            { id: 8, category: 'Brochetas', name: 'Solo Pincho Mixto', price: 2.00, desc: 'Pincho individual P+C+Ca.', img: 'https://images.unsplash.com/photo-1532636875304-0c89119d9b4d?q=80&w=600&auto=format&fit=crop' },
-            { id: 9, category: 'Chuleta', name: 'Chuleta Asada Gourmet', price: 4.00, desc: 'Con arroz, menestra y patacones frescos.', img: 'https://images.unsplash.com/photo-1602489114471-dfd3ee4bb675?q=80&w=600&auto=format&fit=crop' },
-            { id: 10, category: 'Chuleta', name: 'Solo Chuleta Asada', price: 2.00, desc: 'Chuleta de cerdo sazonada a la parrilla.', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop' },
-            { id: 11, category: 'Bebidas', name: 'Agua Dasani', price: 0.75, desc: 'Frescamente pura.', img: 'https://images.unsplash.com/photo-1560023907-5f339617ea30?q=80&w=600&auto=format&fit=crop' },
-            { id: 12, category: 'Bebidas', name: 'Gaseosa Vidrio', price: 0.75, desc: 'Sabor refrescante.', img: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?q=80&w=600&auto=format&fit=crop' },
-            { id: 13, category: 'Bebidas', name: 'Nutrimalta Vidrio', price: 1.00, desc: 'Energía natural.', img: 'https://images.unsplash.com/photo-1613203134464-3298818ed24c?q=80&w=600&auto=format&fit=crop' },
-            { id: 14, category: 'Bebidas', name: 'Cerveza Corona', price: 2.00, desc: 'Bien fría.', img: 'https://images.unsplash.com/photo-1618885472179-5e474019f2a9?q=80&w=600&auto=format&fit=crop' }
+            { id: 1, category: 'Principal', name: 'Conchas Asadas Clásicas', price: 7.00, desc: 'Conchas asadas al carbón, patacones y ensalada.', img: 'conchas_1.jpg' },
+            { id: 2, category: 'Principal', name: 'Combo Conchas Especial', price: 8.50, desc: 'Conchas + arroz, menestra, patacones y ensalada.', img: 'conchas_2.jpg' },
+            { id: 3, category: 'Brochetas', name: 'Pincho de Pollo Completo', price: 3.00, desc: 'Con arroz, menestra y patacones crujientes.', img: 'pollo_1.jpg' },
+            { id: 4, category: 'Brochetas', name: 'Solo Pincho Pollo', price: 1.50, desc: 'Brocheta de pollo asada al momento.', img: 'pollo_2.jpg' },
+            { id: 5, category: 'Brochetas', name: 'Brocheta de Camarones', price: 4.00, desc: 'Camarones seleccionados con arroz o patacones.', img: 'camaron.jpg' },
+            { id: 6, category: 'Brochetas', name: 'Mixta (Pollo/Carne/Chorizo)', price: 4.00, desc: 'Combinación clásica con guarnición completa.', img: 'mixta_1.jpg' },
+            { id: 7, category: 'Brochetas', name: 'Mixta (Pollo/Carne/Camarón)', price: 4.00, desc: 'Lo mejor de mar y tierra con arroz.', img: 'mixta_2.jpg' },
+            { id: 8, category: 'Brochetas', name: 'Solo Pincho Mixto', price: 2.00, desc: 'Pincho individual P+C+Ca.', img: 'mixto_solo.jpg' },
+            { id: 9, category: 'Chuleta', name: 'Chuleta Asada Gourmet', price: 4.00, desc: 'Con arroz, menestra y patacones frescos.', img: 'chuleta_1.jpg' },
+            { id: 10, category: 'Chuleta', name: 'Solo Chuleta Asada', price: 2.00, desc: 'Chuleta de cerdo sazonada a la parrilla.', img: 'chuleta_2.jpg' },
+            { id: 11, category: 'Bebidas', name: 'Agua Dasani', price: 0.75, desc: 'Frescamente pura.', img: 'agua.jpg' },
+            { id: 12, category: 'Bebidas', name: 'Gaseosa Vidrio', price: 0.75, desc: 'Sabor refrescante.', img: 'gaseosa.jpg' },
+            { id: 13, category: 'Bebidas', name: 'Nutrimalta Vidrio', price: 1.00, desc: 'Energía natural.', img: 'nutrimalta.jpg' },
+            { id: 14, category: 'Bebidas', name: 'Cerveza Corona', price: 2.00, desc: 'Bien fría.', img: 'cerveza.jpg' }
         ];
 
         let cart = [];
@@ -254,17 +257,17 @@
                 card.className = "item-card bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] flex flex-row h-36 border border-gray-50";
                 card.innerHTML = `
                     <div class="w-2/5 h-full relative overflow-hidden">
-                        <img src="${item.img}" class="w-full h-full object-cover" alt="${item.name}">
+                        <img src="${item.img}" class="w-full h-full object-cover" alt="${item.name}" onerror="this.src='https://placehold.co/400x400/5C2E0E/FFF?text=Cargando...'">
                         <div class="absolute inset-0 bg-gradient-to-r from-transparent to-white/10"></div>
                     </div>
                     <div class="w-3/5 p-4 flex flex-col justify-between">
                         <div>
-                            <h3 class="font-black text-gray-800 text-sm leading-snug mb-1">${item.name}</h3>
+                            <h3 class="font-black text-gray-800 text-sm leading-snug mb-1 tracking-tighter uppercase">${item.name}</h3>
                             <p class="text-[10px] text-gray-400 font-semibold line-clamp-2">${item.desc}</p>
                         </div>
                         <div class="flex items-end justify-between">
                             <span class="text-xl font-black text-[#5C2E0E]">$${item.price.toFixed(2)}</span>
-                            <button onclick="addToCart(${item.id})" class="bg-[#BC6C25] text-white w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg active:scale-90">
+                            <button onclick="addToCart(${item.id})" class="bg-[#BC6C25] text-white w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition-transform">
                                 <i class="fas fa-plus text-xs"></i>
                             </button>
                         </div>
@@ -299,22 +302,23 @@
             const count = cart.reduce((a, b) => a + b.quantity, 0);
             document.getElementById('cart-count').innerText = count;
             const total = cart.reduce((a, b) => a + (b.price * b.quantity), 0);
-            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
-            document.getElementById('cart-total-floating').innerText = `$${total.toFixed(2)}`;
+            const formatted = `$${total.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = formatted;
+            document.getElementById('cart-total-floating').innerText = formatted;
             const container = document.getElementById('cart-items');
             if(cart.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 opacity-20"><p class="font-black uppercase tracking-widest text-xs">Vacío</p></div>`;
+                container.innerHTML = `<div class="text-center py-20 opacity-20"><p class="font-black uppercase tracking-widest text-[10px]">No hay productos</p></div>`;
             } else {
                 container.innerHTML = cart.map(item => `
-                    <div class="flex items-center justify-between p-4 bg-orange-50/20 rounded-3xl border border-orange-100/50">
-                        <div class="flex-1 pr-2">
+                    <div class="flex items-center justify-between p-4 bg-gray-50/50 rounded-3xl border border-gray-100">
+                        <div class="flex-1">
                             <h4 class="font-black text-gray-800 text-[10px] uppercase">${item.name}</h4>
-                            <p class="text-[10px] font-black text-orange-900/30">$${item.price.toFixed(2)}</p>
+                            <p class="text-[10px] font-black text-orange-900/40 mt-0.5">$${item.price.toFixed(2)}</p>
                         </div>
-                        <div class="flex items-center space-x-3 bg-white p-2 rounded-2xl">
-                            <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 flex items-center justify-center text-gray-400"><i class="fas fa-minus text-[8px]"></i></button>
-                            <span class="font-black text-xs">${item.quantity}</span>
-                            <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 flex items-center justify-center text-[#BC6C25]"><i class="fas fa-plus text-[8px]"></i></button>
+                        <div class="flex items-center space-x-3 bg-white p-1.5 rounded-2xl border border-gray-100 shadow-sm">
+                            <button onclick="changeQty(${item.id}, -1)" class="w-7 h-7 flex items-center justify-center text-gray-400"><i class="fas fa-minus text-[8px]"></i></button>
+                            <span class="font-black text-xs text-[#5C2E0E]">${item.quantity}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="w-7 h-7 flex items-center justify-center text-[#BC6C25]"><i class="fas fa-plus text-[8px]"></i></button>
                         </div>
                     </div>
                 `).join('');
@@ -333,25 +337,26 @@
             const el = document.getElementById('custom-alert');
             document.getElementById('alert-text').innerText = text;
             el.classList.remove('hidden');
-            setTimeout(() => el.classList.add('hidden'), 2000);
+            setTimeout(() => el.classList.add('hidden'), 2500);
         }
 
         function sendOrder() {
             const name = document.getElementById('client-name').value.trim();
             const table = document.getElementById('table-number').value.trim();
-            if(!name || !table) return showAlert("INGRESA TU NOMBRE Y MESA");
-            if(cart.length === 0) return showAlert("CARRITO VACÍO");
-            let msg = `*ORDEN - PIQUEOS MIA MELY*\n👤 *Cliente:* ${name.toUpperCase()}\n📍 *Mesa:* ${table}\n\n`;
+            if(!name || !table) return showAlert("INDÍCANOS TU NOMBRE Y MESA");
+            if(cart.length === 0) return showAlert("TU CARRITO ESTÁ VACÍO");
+            let msg = `*MIA MELY - NUEVA ORDEN*\n👤 *Cliente:* ${name.toUpperCase()}\n📍 *Mesa:* ${table}\n\n`;
             let total = 0;
             cart.forEach(i => {
-                msg += `• ${i.quantity}x ${i.name} ($${(i.price * i.quantity).toFixed(2)})\n`;
-                total += i.price * i.quantity;
+                const sub = i.price * i.quantity;
+                msg += `🔸 ${i.quantity}x ${i.name.toUpperCase()}\n   └─ _$${sub.toFixed(2)}_\n\n`;
+                total += sub;
             });
-            msg += `\n💰 *TOTAL: $${total.toFixed(2)}*`;
+            msg += `\n💰 *TOTAL A PAGAR: $${total.toFixed(2)}*`;
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // LOGICA DE TETRIS
+        // --- LÓGICA DE TETRIS MEJORADA CON SONIDO Y COLOR ---
         const canvas = document.getElementById('tetris-canvas');
         const context = canvas.getContext('2d');
         const grid = 20;
@@ -364,44 +369,62 @@
             'Z': [[1,1,0],[0,1,1],[0,0,0]],
             'T': [[0,1,0],[1,1,1],[0,0,0]]
         };
-        // COLORES ACTUALIZADOS A COLORIDO NEON
         const colors = ['#FF00FF', '#00FFFF', '#FFFF00', '#00FF00', '#FF0000', '#0070FF', '#FF9500'];
+        
         let playfield = [];
-        for (let row = -2; row < 20; row++) { playfield[row] = new Array(10).fill(0); }
         let tetromino = null;
         let rAF = null;
         let count = 0;
+        let dropInterval = 60; 
+        let linesClearedTotal = 0;
+
+        function playClearSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.1);
+            } catch(e) {}
+        }
 
         function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-        function rotate(matrix) {
-            const N = matrix.length;
-            const result = matrix.map((row, i) => matrix.map(val => val[i]).reverse());
-            return result;
-        }
+        function rotate(matrix) { return matrix.map((row, i) => matrix.map(val => val[i]).reverse()); }
         function isValidMove(matrix, cellRow, cellCol) {
             for (let r = 0; r < matrix.length; r++) {
                 for (let c = 0; c < matrix[r].length; c++) {
-                    if (matrix[r][c] && (cellCol + c < 0 || cellCol + c >= 10 || cellRow + r >= 20 || playfield[cellRow + r][cellCol + c])) { return false; }
+                    if (matrix[r][c] && (cellCol + c < 0 || cellCol + c >= 10 || cellRow + r >= 20 || playfield[cellRow + r][cellCol + c])) return false;
                 }
             }
             return true;
         }
+
         function startTetris() {
             document.getElementById('game-over').classList.add('hidden');
             playfield = [];
-            for (let row = -2; row < 20; row++) { playfield[row] = new Array(10).fill(0); }
+            for (let row = -2; row < 20; row++) playfield[row] = new Array(10).fill(0);
             tetromino = getNextTetromino();
+            dropInterval = 60;
+            linesClearedTotal = 0;
+            document.getElementById('tetris-level').innerText = "Nivel 1";
             cancelAnimationFrame(rAF);
             rAF = requestAnimationFrame(loop);
         }
+
         function getNextTetromino() {
             const names = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
             const name = names[getRandomInt(0, names.length - 1)];
             const matrix = tetrominoes[name];
-            const col = 5 - Math.floor(matrix[0].length / 2);
-            const row = name === 'I' ? -1 : -2;
-            return { name, matrix, row, col, color: colors[getRandomInt(0, colors.length - 1)] };
+            return { name, matrix, row: name === 'I' ? -1 : -2, col: 5 - Math.floor(matrix[0].length / 2), color: colors[getRandomInt(0, colors.length - 1)] };
         }
+
         function loop() {
             rAF = requestAnimationFrame(loop);
             context.clearRect(0,0,canvas.width,canvas.height);
@@ -414,8 +437,9 @@
                 }
             }
             if (tetromino) {
-                if (++count > 35) {
-                    tetromino.row++; count = 0;
+                if (++count > dropInterval) {
+                    tetromino.row++;
+                    count = 0;
                     if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
                         tetromino.row--;
                         placeTetromino();
@@ -424,48 +448,47 @@
                 context.fillStyle = tetromino.color;
                 for (let r = 0; r < tetromino.matrix.length; r++) {
                     for (let c = 0; c < tetromino.matrix[r].length; c++) {
-                        if (tetromino.matrix[r][c]) { context.fillRect((tetromino.col + c) * grid, (tetromino.row + r) * grid, grid-1, grid-1); }
+                        if (tetromino.matrix[r][c]) context.fillRect((tetromino.col + c) * grid, (tetromino.row + r) * grid, grid-1, grid-1);
                     }
                 }
             }
         }
+
         function placeTetromino() {
             for (let r = 0; r < tetromino.matrix.length; r++) {
                 for (let c = 0; c < tetromino.matrix[r].length; c++) {
                     if (tetromino.matrix[r][c]) {
-                        if (tetromino.row + r < 0) { return showGameOver(); }
+                        if (tetromino.row + r < 0) return showGameOver();
                         playfield[tetromino.row + r][tetromino.col + c] = tetromino.color;
                     }
                 }
             }
+            let linesThisTurn = 0;
             for (let row = 19; row >= 0; ) {
                 if (playfield[row].every(cell => !!cell)) {
-                    for (let r = row; r >= 0; r--) { playfield[r] = [...playfield[r-1]]; }
+                    linesThisTurn++;
+                    for (let r = row; r >= 0; r--) playfield[r] = [...playfield[r-1]];
                     playfield[-2] = new Array(10).fill(0);
-                } else { row--; }
+                } else row--;
+            }
+            if (linesThisTurn > 0) {
+                playClearSound();
+                linesClearedTotal += linesThisTurn;
+                // Aumenta velocidad restando frames (mínimo 8)
+                dropInterval = Math.max(8, 60 - Math.floor(linesClearedTotal / 2) * 5);
+                document.getElementById('tetris-level').innerText = `Nivel ${Math.floor(linesClearedTotal / 2) + 1}`;
             }
             tetromino = getNextTetromino();
         }
-        function showGameOver() {
-            cancelAnimationFrame(rAF);
-            document.getElementById('game-over').classList.remove('hidden');
-        }
+
+        function showGameOver() { cancelAnimationFrame(rAF); document.getElementById('game-over').classList.remove('hidden'); }
         function tetrisMove(dc, dr, rot = false) {
             if (!tetromino) return;
-            if (rot) {
-                const matrix = rotate(tetromino.matrix);
-                if (isValidMove(matrix, tetromino.row, tetromino.col)) { tetromino.matrix = matrix; }
-            } else {
-                if (isValidMove(tetromino.matrix, tetromino.row + dr, tetromino.col + dc)) {
-                    tetromino.row += dr; tetromino.col += dc;
-                } else if (dr > 0) { placeTetromino(); }
-            }
+            if (rot) { const m = rotate(tetromino.matrix); if (isValidMove(m, tetromino.row, tetromino.col)) tetromino.matrix = m; }
+            else { if (isValidMove(tetromino.matrix, tetromino.row + dr, tetromino.col + dc)) { tetromino.row += dr; tetromino.col += dc; } else if (dr > 0) placeTetromino(); }
         }
 
-        window.onload = () => {
-            renderMenu(menuItems);
-            startTetris();
-        };
+        window.onload = () => { renderMenu(menuItems); startTetris(); };
     </script>
 </body>
 </html>
