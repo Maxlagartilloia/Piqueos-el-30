@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piqueos Mia Mely - Menú Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+        :root {
+            --primary: #5C2E0E;
+            --secondary: #BC6C25;
+            --accent: #FEFAE0;
+            --text-dark: #283618;
+        }
+
+        body {
+            background-color: #fcf9f5;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .header-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1599481238640-4c1288750d7a?q=80&w=1200&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .category-tab.active {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(92, 46, 14, 0.2);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .item-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .item-card:active {
+            transform: scale(0.97);
+        }
+
+        .btn-location {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-location:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    </style>
+</head>
+<body class="pb-28">
+
+    <!-- Header / Portada Elegante -->
+    <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden">
+        <!-- Logo -->
+        <div class="relative z-10 flex flex-col items-center">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl mb-4 p-1 border-2 border-orange-100">
+                <div class="w-full h-full rounded-full border border-orange-200 flex flex-col items-center justify-center bg-white overflow-hidden">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-[#5C2E0E]" fill="currentColor">
+                        <path d="M12,2C15.31,2 18,4.69 18,8C18,12.03 12,22 12,22C12,22 6,12.03 6,8C6,4.69 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,4C9.79,4 8,5.79 8,8C8,11.19 12,18 12,18C12,18 16,11.19 16,8C16,5.79 14.21,4 12,4Z" opacity="0.1"/>
+                        <path d="M12,2C10.89,2 10,2.89 10,4C10,5.11 10.89,6 12,6C13.11,6 14,5.11 14,4C14,2.89 13.11,2 12,2M12,22C12,22 19,13 19,8C19,4.13 15.87,1 12,1C8.13,1 5,4.13 5,8C5,13 12,22 12,22M12,3C14.76,3 17,5.24 17,8C17,11.38 13.11,17.43 12,19C10.89,17.43 7,11.38 7,8C7,5.24 9.24,3 12,3Z" />
+                    </svg>
+                </div>
+            </div>
+            <h1 class="font-serif text-4xl font-black tracking-tight mb-0">Menu</h1>
+            <p class="text-xs font-bold tracking-[0.3em] text-orange-200 uppercase mt-2 mb-4">Piqueos Mia Mely</p>
+            
+            <!-- Botón de Ubicación -->
+            <a href="https://maps.google.com/?q=-0.239231,-76.683868" target="_blank" class="btn-location px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center shadow-lg active:scale-95">
+                <i class="fas fa-map-marker-alt mr-2 text-orange-400"></i> Cómo llegar
+            </a>
+        </div>
+        <!-- Decorative element -->
+        <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/20 to-transparent"></div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="px-4 -mt-8 sticky top-2 z-30">
+        <div class="flex space-x-2 overflow-x-auto no-scrollbar py-4 px-2">
+            <button onclick="filterCategory('all')" class="category-tab active flex-shrink-0 px-6 py-3 rounded-2xl glass-card text-xs font-black shadow-lg transition-all uppercase tracking-wider" id="tab-all">Todos</button>
+            <button onclick="filterCategory('Principal')" class="category-tab flex-shrink-0 px-6 py-3 rounded-2xl glass-card text-xs font-black shadow-lg transition-all uppercase tracking-wider" id="tab-Principal">Conchas</button>
+            <button onclick="filterCategory('Brochetas')" class="category-tab flex-shrink-0 px-6 py-3 rounded-2xl glass-card text-xs font-black shadow-lg transition-all uppercase tracking-wider" id="tab-Brochetas">Brochetas</button>
+            <button onclick="filterCategory('Chuleta')" class="category-tab flex-shrink-0 px-6 py-3 rounded-2xl glass-card text-xs font-black shadow-lg transition-all uppercase tracking-wider" id="tab-Chuleta">Cerdo</button>
+            <button onclick="filterCategory('Bebidas')" class="category-tab flex-shrink-0 px-6 py-3 rounded-2xl glass-card text-xs font-black shadow-lg transition-all uppercase tracking-wider" id="tab-Bebidas">Bebidas</button>
+        </div>
+    </nav>
+
+    <!-- Items Grid -->
+    <main id="menu-container" class="px-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Rendered by JS -->
+    </main>
+
+    <!-- Footer Action -->
+    <div id="cart-btn-container" class="fixed bottom-8 left-0 right-0 flex justify-center z-40 pointer-events-none">
+        <button onclick="toggleCart()" class="pointer-events-auto h-16 px-8 bg-[#5C2E0E] text-white rounded-3xl flex items-center shadow-[0_15px_30px_-10px_rgba(92,46,14,0.6)] border-2 border-white/20 transition-all active:scale-95 group">
+            <div class="relative mr-4">
+                <i class="fas fa-shopping-bag text-xl"></i>
+                <span id="cart-count" class="absolute -top-3 -right-3 bg-white text-[#5C2E0E] text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
+            </div>
+            <span class="font-bold text-sm tracking-wide mr-4">REVISAR PEDIDO</span>
+            <div class="h-6 w-[1px] bg-white/20 mr-4"></div>
+            <span id="cart-total-floating" class="font-black text-lg">$0.00</span>
+        </button>
+    </div>
+
+    <!-- Modal del Carrito -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end sm:items-center justify-center transition-all">
+        <div class="bg-white w-full sm:max-w-md rounded-t-[3rem] sm:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+            <div class="p-8 border-b flex justify-between items-center bg-[#fcf9f5]">
+                <div>
+                    <h2 class="font-serif text-3xl font-black text-[#5C2E0E]">Tu Orden</h2>
+                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">Piqueos Mia Mely</p>
+                </div>
+                <button onclick="toggleCart()" class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-gray-400"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div id="cart-items" class="flex-1 overflow-y-auto p-8 space-y-6">
+                <!-- Items list -->
+            </div>
+
+            <div class="p-8 bg-[#fcf9f5] border-t-2 border-orange-50 space-y-6">
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm"></i>
+                        <input type="text" id="client-name" placeholder="Tu Nombre Completo" class="w-full pl-10 pr-4 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none text-sm font-semibold shadow-sm">
+                    </div>
+                    <div class="relative">
+                        <i class="fas fa-chair absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm"></i>
+                        <input type="number" id="table-number" placeholder="Número de Mesa" class="w-full pl-10 pr-4 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none text-sm font-semibold shadow-sm">
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-end">
+                    <span class="text-gray-400 font-bold text-xs uppercase tracking-widest">Total a pagar</span>
+                    <span id="cart-total" class="text-4xl font-black text-[#5C2E0E]">$0.00</span>
+                </div>
+                
+                <button onclick="sendOrder()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-5 rounded-[2rem] flex items-center justify-center shadow-xl transition-all transform active:scale-95">
+                    <i class="fab fa-whatsapp mr-3 text-2xl"></i> CONFIRMAR PEDIDO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Custom -->
+    <div id="custom-alert" class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] hidden w-[90%] max-w-sm">
+        <div class="bg-[#5C2E0E] text-white px-8 py-4 rounded-3xl shadow-2xl font-bold flex items-center justify-center border-2 border-white/10">
+            <i class="fas fa-info-circle mr-3"></i>
+            <span id="alert-text" class="text-sm">Mensaje</span>
+        </div>
+    </div>
+
+    <script>
+        const WHATSAPP_NUMBER = "593992228270";
+
+        const menuItems = [
+            { id: 1, category: 'Principal', name: 'Conchas Asadas Clásicas', price: 7.00, desc: 'Conchas asadas al carbón, patacones y ensalada.', img: 'https://images.unsplash.com/photo-1599481238640-4c1288750d7a?q=80&w=600&auto=format&fit=crop' },
+            { id: 2, category: 'Principal', name: 'Combo Conchas Especial', price: 8.50, desc: 'Conchas + arroz, menestra, patacones y ensalada.', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&auto=format&fit=crop' },
+            { id: 3, category: 'Brochetas', name: 'Pincho de Pollo Completo', price: 3.00, desc: 'Con arroz, menestra y patacones crujientes.', img: 'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?q=80&w=600&auto=format&fit=crop' },
+            { id: 4, category: 'Brochetas', name: 'Solo Pincho Pollo', price: 1.50, desc: 'Brocheta de pollo asada al momento.', img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=600&auto=format&fit=crop' },
+            { id: 5, category: 'Brochetas', name: 'Brocheta de Camarones', price: 4.00, desc: 'Camarones seleccionados con arroz o patacones.', img: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?q=80&w=600&auto=format&fit=crop' },
+            { id: 6, category: 'Brochetas', name: 'Mixta (Pollo/Carne/Chorizo)', price: 4.00, desc: 'Combinación clásica con guarnición completa.', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop' },
+            { id: 7, category: 'Brochetas', name: 'Mixta (Pollo/Carne/Camarón)', price: 4.00, desc: 'Lo mejor de mar y tierra con arroz.', img: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?q=80&w=600&auto=format&fit=crop' },
+            { id: 8, category: 'Brochetas', name: 'Solo Pincho Mixto', price: 2.00, desc: 'Pincho individual P+C+Ca.', img: 'https://images.unsplash.com/photo-1532636875304-0c89119d9b4d?q=80&w=600&auto=format&fit=crop' },
+            { id: 9, category: 'Chuleta', name: 'Chuleta Asada Gourmet', price: 4.00, desc: 'Con arroz, menestra y patacones frescos.', img: 'https://images.unsplash.com/photo-1602489114471-dfd3ee4bb675?q=80&w=600&auto=format&fit=crop' },
+            { id: 10, category: 'Chuleta', name: 'Solo Chuleta Asada', price: 2.00, desc: 'Chuleta de cerdo sazonada a la parrilla.', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop' },
+            { id: 11, category: 'Bebidas', name: 'Agua Dasani', price: 0.75, desc: 'Frescamente pura.', img: 'https://images.unsplash.com/photo-1560023907-5f339617ea30?q=80&w=600&auto=format&fit=crop' },
+            { id: 12, category: 'Bebidas', name: 'Gaseosa Vidrio', price: 0.75, desc: 'Sabor refrescante.', img: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?q=80&w=600&auto=format&fit=crop' },
+            { id: 13, category: 'Bebidas', name: 'Nutrimalta Vidrio', price: 1.00, desc: 'Energía natural.', img: 'https://images.unsplash.com/photo-1613203134464-3298818ed24c?q=80&w=600&auto=format&fit=crop' },
+            { id: 14, category: 'Bebidas', name: 'Sporade 1 Litro', price: 1.50, desc: 'Hidratación total.', img: 'https://images.unsplash.com/photo-1622484210800-26f1bb2319dd?q=80&w=600&auto=format&fit=crop' },
+            { id: 15, category: 'Bebidas', name: 'Cerveza Corona', price: 2.00, desc: 'Bien fría.', img: 'https://images.unsplash.com/photo-1618885472179-5e474019f2a9?q=80&w=600&auto=format&fit=crop' },
+            { id: 16, category: 'Bebidas', name: 'Club Litrona', price: 3.00, desc: 'Para compartir entre amigos.', img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?q=80&w=600&auto=format&fit=crop' }
+        ];
+
+        let cart = [];
+
+        function renderMenu(items) {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "item-card bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] flex flex-row h-36 border border-gray-50";
+                card.innerHTML = `
+                    <div class="w-2/5 h-full relative overflow-hidden">
+                        <img src="${item.img}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" alt="${item.name}">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent to-white/10"></div>
+                    </div>
+                    <div class="w-3/5 p-4 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-black text-gray-800 text-sm leading-snug mb-1">${item.name}</h3>
+                            <p class="text-[10px] text-gray-400 font-semibold line-clamp-2">${item.desc}</p>
+                        </div>
+                        <div class="flex items-end justify-between">
+                            <span class="text-xl font-black text-[#5C2E0E]">$${item.price.toFixed(2)}</span>
+                            <button onclick="addToCart(${item.id})" class="bg-[#BC6C25] text-white w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-900/20 active:bg-[#5C2E0E]">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + cat).classList.add('active');
+            if(cat === 'all') renderMenu(menuItems);
+            else renderMenu(menuItems.filter(i => i.category === cat));
+        }
+
+        function addToCart(id) {
+            const item = menuItems.find(i => i.id === id);
+            const inCart = cart.find(i => i.id === id);
+            if(inCart) inCart.quantity++;
+            else cart.push({...item, quantity: 1});
+            
+            updateUI();
+        }
+
+        function updateUI() {
+            const count = cart.reduce((a, b) => a + b.quantity, 0);
+            document.getElementById('cart-count').innerText = count;
+            
+            const total = cart.reduce((a, b) => a + (b.price * b.quantity), 0);
+            const formattedTotal = `$${total.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = formattedTotal;
+            document.getElementById('cart-total-floating').innerText = formattedTotal;
+            
+            const container = document.getElementById('cart-items');
+            if(cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-20 opacity-20"><i class="fas fa-clipboard-list text-6xl mb-4 block"></i><p class="font-black uppercase tracking-widest text-xs">Aún no hay piqueos</p></div>`;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between p-4 bg-orange-50/20 rounded-3xl border border-orange-100/50">
+                        <div class="flex-1">
+                            <h4 class="font-black text-gray-800 text-xs uppercase tracking-tight">${item.name}</h4>
+                            <p class="text-[10px] font-black text-orange-900/30 tracking-widest mt-1">$${item.price.toFixed(2)} / UNIDAD</p>
+                        </div>
+                        <div class="flex items-center space-x-4 bg-white p-2 rounded-2xl shadow-sm">
+                            <button onclick="changeQty(${item.id}, -1)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500"><i class="fas fa-minus text-[10px]"></i></button>
+                            <span class="font-black text-sm text-[#5C2E0E] w-4 text-center">${item.quantity}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="w-8 h-8 flex items-center justify-center text-[#BC6C25]"><i class="fas fa-plus text-[10px]"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            item.quantity += delta;
+            if(item.quantity <= 0) cart = cart.filter(i => i.id !== id);
+            updateUI();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function showAlert(text) {
+            const el = document.getElementById('custom-alert');
+            document.getElementById('alert-text').innerText = text;
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 3000);
+        }
+
+        function sendOrder() {
+            const name = document.getElementById('client-name').value.trim();
+            const table = document.getElementById('table-number').value.trim();
+
+            if(!name || !table) return showAlert("INDÍCANOS TU NOMBRE Y MESA");
+            if(cart.length === 0) return showAlert("EL CARRITO ESTÁ VACÍO");
+
+            let msg = `*ORDEN - PIQUEOS MIA MELY*\n`;
+            msg += `━━━━━━━━━━━━━━━━\n`;
+            msg += `👤 *Cliente:* ${name.toUpperCase()}\n`;
+            msg += `📍 *Mesa:* ${table}\n`;
+            msg += `━━━━━━━━━━━━━━━━\n\n`;
+            
+            let total = 0;
+            cart.forEach(i => {
+                const sub = i.price * i.quantity;
+                msg += `🔸 ${i.quantity}x ${i.name.toUpperCase()}\n   └─ _$${sub.toFixed(2)}_\n\n`;
+                total += sub;
+            });
+            
+            msg += `━━━━━━━━━━━━━━━━\n`;
+            msg += `💰 *TOTAL: $${total.toFixed(2)}*\n`;
+            msg += `━━━━━━━━━━━━━━━━\n`;
+            msg += `_Solicitado vía Menú Digital_`;
+
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        window.onload = () => renderMenu(menuItems);
+    </script>
+</body>
+</html>
+
