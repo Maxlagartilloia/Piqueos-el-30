@@ -94,16 +94,11 @@
     <!-- Header / Portada Elegante -->
     <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden">
         <div class="relative z-10 flex flex-col items-center">
-            <!-- Logo sin círculo, más grande y flotante -->
-            <div class="mb-4">
-                <img src="logo.png" alt="Logo" class="w-40 h-40 object-contain drop-shadow-xl" onerror="this.style.display='none'">
-                <div class="w-40 h-40 flex items-center justify-center bg-white rounded-full hidden" id="logo-fallback">
-                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-[#5C2E0E]" fill="currentColor">
-                        <path d="M12,2C15.31,2 18,4.69 18,8C18,12.03 12,22 12,22C12,22 6,12.03 6,8C6,4.69 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,4C9.79,4 8,5.79 8,8C8,11.19 12,18 12,18C12,18 16,11.19 16,8C16,5.79 14.21,4 12,4Z" opacity="0.1"/>
-                        <path d="M12,2C10.89,2 10,2.89 10,4C10,5.11 10.89,6 12,6C13.11,6 14,5.11 14,4C14,2.89 13.11,2 12,2M12,22C12,22 19,13 19,8C19,4.13 15.87,1 12,1C8.13,1 5,4.13 5,8C5,13 12,22 12,22M12,3C14.76,3 17,5.24 17,8C17,11.38 13.11,17.43 12,19C10.89,17.43 7,11.38 7,8C7,5.24 9.24,3 12,3Z" />
-                    </svg>
-                </div>
+            <!-- Logo en círculo blanco puro sin bordes -->
+            <div class="mb-4 w-40 h-40 bg-white rounded-full flex items-center justify-center shadow-2xl p-4 overflow-hidden border-none">
+                <img src="logo.png" alt="Logo" class="w-full h-full object-contain" onerror="this.parentElement.style.display='none'">
             </div>
+
             <h1 class="font-serif text-4xl font-black tracking-tight mb-0">Menu</h1>
             <p class="text-xs font-bold tracking-[0.3em] text-orange-200 uppercase mt-2 mb-4">Piqueos Mia Mely</p>
             
@@ -167,7 +162,7 @@
 
     <!-- Footer Action -->
     <div id="cart-btn-container" class="fixed bottom-8 left-0 right-0 flex justify-center z-40 pointer-events-none">
-        <button onclick="toggleCart()" class="pointer-events-auto h-16 px-8 bg-[#5C2E0E] text-white rounded-3xl flex items-center shadow-[0_15px_30px_-10px_rgba(92,46,14,0.6)] border-2 border-white/20 transition-all active:scale-95 group">
+        <button onclick="toggleCart()" class="pointer-events-auto h-16 px-8 bg-[#5C2E0E] text-white rounded-3xl flex items-center shadow-lg border-2 border-white/20 transition-all active:scale-95 group">
             <div class="relative mr-4">
                 <i class="fas fa-shopping-bag text-xl"></i>
                 <span id="cart-count" class="absolute -top-3 -right-3 bg-white text-[#5C2E0E] text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
@@ -475,7 +470,6 @@
             if (linesThisTurn > 0) {
                 playClearSound();
                 linesClearedTotal += linesThisTurn;
-                // Aumenta velocidad restando frames (mínimo 8)
                 dropInterval = Math.max(8, 60 - Math.floor(linesClearedTotal / 2) * 5);
                 document.getElementById('tetris-level').innerText = `Nivel ${Math.floor(linesClearedTotal / 2) + 1}`;
             }
