@@ -63,8 +63,29 @@
             transition: all 0.3s ease;
         }
 
-        .btn-location:hover {
-            background: rgba(255, 255, 255, 0.25);
+        /* Estilos Tetris */
+        #tetris-canvas {
+            background-color: #1a1a1a;
+            border: 4px solid var(--primary);
+            border-radius: 12px;
+            display: block;
+            margin: 0 auto;
+        }
+        .game-controls button {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 0 #3a1d09;
+        }
+        .game-controls button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3a1d09;
         }
     </style>
 </head>
@@ -72,7 +93,6 @@
 
     <!-- Header / Portada Elegante -->
     <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden">
-        <!-- Logo -->
         <div class="relative z-10 flex flex-col items-center">
             <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl mb-4 p-1 border-2 border-orange-100">
                 <div class="w-full h-full rounded-full border border-orange-200 flex flex-col items-center justify-center bg-white overflow-hidden">
@@ -85,12 +105,10 @@
             <h1 class="font-serif text-4xl font-black tracking-tight mb-0">Menu</h1>
             <p class="text-xs font-bold tracking-[0.3em] text-orange-200 uppercase mt-2 mb-4">Piqueos Mia Mely</p>
             
-            <!-- Botón de Ubicación -->
             <a href="https://maps.google.com/?q=-0.239231,-76.683868" target="_blank" class="btn-location px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center shadow-lg active:scale-95">
                 <i class="fas fa-map-marker-alt mr-2 text-orange-400"></i> Cómo llegar
             </a>
         </div>
-        <!-- Decorative element -->
         <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/20 to-transparent"></div>
     </header>
 
@@ -110,6 +128,40 @@
         <!-- Rendered by JS -->
     </main>
 
+    <!-- Sección Juego de Tetris -->
+    <section class="mt-20 px-6 mb-12">
+        <div class="text-center mb-6">
+            <h2 class="font-serif text-2xl font-black text-[#5C2E0E]">¿Esperando tu pedido?</h2>
+            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">¡Diviértete un poco!</p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-[2.5rem] shadow-xl border border-orange-50 relative">
+            <div id="game-over" class="hidden absolute inset-0 bg-black/80 z-20 rounded-[2.5rem] flex flex-col items-center justify-center text-white">
+                <h3 class="text-2xl font-black mb-4 uppercase">¡Juego Terminado!</h3>
+                <button onclick="startTetris()" class="bg-[#BC6C25] px-8 py-3 rounded-2xl font-black uppercase text-xs">Reiniciar</button>
+            </div>
+            
+            <canvas id="tetris-canvas" width="200" height="400"></canvas>
+            
+            <div class="mt-6 flex justify-center gap-4 game-controls">
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="col-start-2">
+                        <button onclick="tetrisMove(0, -1, true)"><i class="fas fa-redo"></i></button>
+                    </div>
+                    <div class="col-start-1 row-start-2">
+                        <button onclick="tetrisMove(-1, 0)"><i class="fas fa-chevron-left"></i></button>
+                    </div>
+                    <div class="col-start-2 row-start-2">
+                        <button onclick="tetrisMove(0, 1)"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class="col-start-3 row-start-2">
+                        <button onclick="tetrisMove(1, 0)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer Action -->
     <div id="cart-btn-container" class="fixed bottom-8 left-0 right-0 flex justify-center z-40 pointer-events-none">
         <button onclick="toggleCart()" class="pointer-events-auto h-16 px-8 bg-[#5C2E0E] text-white rounded-3xl flex items-center shadow-[0_15px_30px_-10px_rgba(92,46,14,0.6)] border-2 border-white/20 transition-all active:scale-95 group">
@@ -117,7 +169,7 @@
                 <i class="fas fa-shopping-bag text-xl"></i>
                 <span id="cart-count" class="absolute -top-3 -right-3 bg-white text-[#5C2E0E] text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
             </div>
-            <span class="font-bold text-sm tracking-wide mr-4">REVISAR PEDIDO</span>
+            <span class="font-bold text-sm tracking-wide mr-4">REVISAR</span>
             <div class="h-6 w-[1px] bg-white/20 mr-4"></div>
             <span id="cart-total-floating" class="font-black text-lg">$0.00</span>
         </button>
@@ -126,12 +178,15 @@
     <!-- Modal del Carrito -->
     <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end sm:items-center justify-center transition-all">
         <div class="bg-white w-full sm:max-w-md rounded-t-[3rem] sm:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
-            <div class="p-8 border-b flex justify-between items-center bg-[#fcf9f5]">
+            <div class="p-8 border-b flex justify-between items-start bg-[#fcf9f5]">
                 <div>
                     <h2 class="font-serif text-3xl font-black text-[#5C2E0E]">Tu Orden</h2>
                     <p class="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">Piqueos Mia Mely</p>
                 </div>
-                <button onclick="toggleCart()" class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-gray-400"><i class="fas fa-times"></i></button>
+                <div class="flex flex-col items-end gap-2">
+                    <button onclick="toggleCart()" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-gray-400"><i class="fas fa-times"></i></button>
+                    <button onclick="clearCart()" class="text-[9px] font-black text-red-500 uppercase tracking-tighter border border-red-100 px-2 py-1 rounded-lg bg-red-50">Vaciar Carrito</button>
+                </div>
             </div>
             
             <div id="cart-items" class="flex-1 overflow-y-auto p-8 space-y-6">
@@ -142,16 +197,16 @@
                 <div class="grid grid-cols-1 gap-4">
                     <div class="relative">
                         <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm"></i>
-                        <input type="text" id="client-name" placeholder="Tu Nombre Completo" class="w-full pl-10 pr-4 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none text-sm font-semibold shadow-sm">
+                        <input type="text" id="client-name" placeholder="Tu Nombre" class="w-full pl-10 pr-4 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none text-sm font-semibold shadow-sm">
                     </div>
                     <div class="relative">
                         <i class="fas fa-chair absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm"></i>
-                        <input type="number" id="table-number" placeholder="Número de Mesa" class="w-full pl-10 pr-4 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none text-sm font-semibold shadow-sm">
+                        <input type="number" id="table-number" placeholder="Mesa #" class="w-full pl-10 pr-4 py-4 bg-white border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none text-sm font-semibold shadow-sm">
                     </div>
                 </div>
                 
                 <div class="flex justify-between items-end">
-                    <span class="text-gray-400 font-bold text-xs uppercase tracking-widest">Total a pagar</span>
+                    <span class="text-gray-400 font-bold text-xs uppercase tracking-widest">Total</span>
                     <span id="cart-total" class="text-4xl font-black text-[#5C2E0E]">$0.00</span>
                 </div>
                 
@@ -164,8 +219,7 @@
 
     <!-- Alert Custom -->
     <div id="custom-alert" class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] hidden w-[90%] max-w-sm">
-        <div class="bg-[#5C2E0E] text-white px-8 py-4 rounded-3xl shadow-2xl font-bold flex items-center justify-center border-2 border-white/10">
-            <i class="fas fa-info-circle mr-3"></i>
+        <div class="bg-[#5C2E0E] text-white px-8 py-4 rounded-3xl shadow-2xl font-bold flex items-center justify-center border-2 border-white/10 text-center">
             <span id="alert-text" class="text-sm">Mensaje</span>
         </div>
     </div>
@@ -187,9 +241,7 @@
             { id: 11, category: 'Bebidas', name: 'Agua Dasani', price: 0.75, desc: 'Frescamente pura.', img: 'https://images.unsplash.com/photo-1560023907-5f339617ea30?q=80&w=600&auto=format&fit=crop' },
             { id: 12, category: 'Bebidas', name: 'Gaseosa Vidrio', price: 0.75, desc: 'Sabor refrescante.', img: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?q=80&w=600&auto=format&fit=crop' },
             { id: 13, category: 'Bebidas', name: 'Nutrimalta Vidrio', price: 1.00, desc: 'Energía natural.', img: 'https://images.unsplash.com/photo-1613203134464-3298818ed24c?q=80&w=600&auto=format&fit=crop' },
-            { id: 14, category: 'Bebidas', name: 'Sporade 1 Litro', price: 1.50, desc: 'Hidratación total.', img: 'https://images.unsplash.com/photo-1622484210800-26f1bb2319dd?q=80&w=600&auto=format&fit=crop' },
-            { id: 15, category: 'Bebidas', name: 'Cerveza Corona', price: 2.00, desc: 'Bien fría.', img: 'https://images.unsplash.com/photo-1618885472179-5e474019f2a9?q=80&w=600&auto=format&fit=crop' },
-            { id: 16, category: 'Bebidas', name: 'Club Litrona', price: 3.00, desc: 'Para compartir entre amigos.', img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?q=80&w=600&auto=format&fit=crop' }
+            { id: 14, category: 'Bebidas', name: 'Cerveza Corona', price: 2.00, desc: 'Bien fría.', img: 'https://images.unsplash.com/photo-1618885472179-5e474019f2a9?q=80&w=600&auto=format&fit=crop' }
         ];
 
         let cart = [];
@@ -202,7 +254,7 @@
                 card.className = "item-card bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] flex flex-row h-36 border border-gray-50";
                 card.innerHTML = `
                     <div class="w-2/5 h-full relative overflow-hidden">
-                        <img src="${item.img}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" alt="${item.name}">
+                        <img src="${item.img}" class="w-full h-full object-cover" alt="${item.name}">
                         <div class="absolute inset-0 bg-gradient-to-r from-transparent to-white/10"></div>
                     </div>
                     <div class="w-3/5 p-4 flex flex-col justify-between">
@@ -212,7 +264,7 @@
                         </div>
                         <div class="flex items-end justify-between">
                             <span class="text-xl font-black text-[#5C2E0E]">$${item.price.toFixed(2)}</span>
-                            <button onclick="addToCart(${item.id})" class="bg-[#BC6C25] text-white w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-900/20 active:bg-[#5C2E0E]">
+                            <button onclick="addToCart(${item.id})" class="bg-[#BC6C25] text-white w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg active:scale-90">
                                 <i class="fas fa-plus text-xs"></i>
                             </button>
                         </div>
@@ -234,33 +286,35 @@
             const inCart = cart.find(i => i.id === id);
             if(inCart) inCart.quantity++;
             else cart.push({...item, quantity: 1});
-            
             updateUI();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateUI();
+            showAlert("CARRITO VACÍO");
         }
 
         function updateUI() {
             const count = cart.reduce((a, b) => a + b.quantity, 0);
             document.getElementById('cart-count').innerText = count;
-            
             const total = cart.reduce((a, b) => a + (b.price * b.quantity), 0);
-            const formattedTotal = `$${total.toFixed(2)}`;
-            document.getElementById('cart-total').innerText = formattedTotal;
-            document.getElementById('cart-total-floating').innerText = formattedTotal;
-            
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('cart-total-floating').innerText = `$${total.toFixed(2)}`;
             const container = document.getElementById('cart-items');
             if(cart.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 opacity-20"><i class="fas fa-clipboard-list text-6xl mb-4 block"></i><p class="font-black uppercase tracking-widest text-xs">Aún no hay piqueos</p></div>`;
+                container.innerHTML = `<div class="text-center py-20 opacity-20"><p class="font-black uppercase tracking-widest text-xs">Vacío</p></div>`;
             } else {
                 container.innerHTML = cart.map(item => `
                     <div class="flex items-center justify-between p-4 bg-orange-50/20 rounded-3xl border border-orange-100/50">
-                        <div class="flex-1">
-                            <h4 class="font-black text-gray-800 text-xs uppercase tracking-tight">${item.name}</h4>
-                            <p class="text-[10px] font-black text-orange-900/30 tracking-widest mt-1">$${item.price.toFixed(2)} / UNIDAD</p>
+                        <div class="flex-1 pr-2">
+                            <h4 class="font-black text-gray-800 text-[10px] uppercase">${item.name}</h4>
+                            <p class="text-[10px] font-black text-orange-900/30">$${item.price.toFixed(2)}</p>
                         </div>
-                        <div class="flex items-center space-x-4 bg-white p-2 rounded-2xl shadow-sm">
-                            <button onclick="changeQty(${item.id}, -1)" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500"><i class="fas fa-minus text-[10px]"></i></button>
-                            <span class="font-black text-sm text-[#5C2E0E] w-4 text-center">${item.quantity}</span>
-                            <button onclick="changeQty(${item.id}, 1)" class="w-8 h-8 flex items-center justify-center text-[#BC6C25]"><i class="fas fa-plus text-[10px]"></i></button>
+                        <div class="flex items-center space-x-3 bg-white p-2 rounded-2xl">
+                            <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 flex items-center justify-center text-gray-400"><i class="fas fa-minus text-[8px]"></i></button>
+                            <span class="font-black text-xs">${item.quantity}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 flex items-center justify-center text-[#BC6C25]"><i class="fas fa-plus text-[8px]"></i></button>
                         </div>
                     </div>
                 `).join('');
@@ -274,49 +328,143 @@
             updateUI();
         }
 
-        function toggleCart() {
-            const modal = document.getElementById('cart-modal');
-            modal.classList.toggle('hidden');
-        }
-
+        function toggleCart() { document.getElementById('cart-modal').classList.toggle('hidden'); }
         function showAlert(text) {
             const el = document.getElementById('custom-alert');
             document.getElementById('alert-text').innerText = text;
             el.classList.remove('hidden');
-            setTimeout(() => el.classList.add('hidden'), 3000);
+            setTimeout(() => el.classList.add('hidden'), 2000);
         }
 
         function sendOrder() {
             const name = document.getElementById('client-name').value.trim();
             const table = document.getElementById('table-number').value.trim();
-
-            if(!name || !table) return showAlert("INDÍCANOS TU NOMBRE Y MESA");
-            if(cart.length === 0) return showAlert("EL CARRITO ESTÁ VACÍO");
-
-            let msg = `*ORDEN - PIQUEOS MIA MELY*\n`;
-            msg += `━━━━━━━━━━━━━━━━\n`;
-            msg += `👤 *Cliente:* ${name.toUpperCase()}\n`;
-            msg += `📍 *Mesa:* ${table}\n`;
-            msg += `━━━━━━━━━━━━━━━━\n\n`;
-            
+            if(!name || !table) return showAlert("INGRESA TU NOMBRE Y MESA");
+            if(cart.length === 0) return showAlert("CARRITO VACÍO");
+            let msg = `*ORDEN - PIQUEOS MIA MELY*\n👤 *Cliente:* ${name.toUpperCase()}\n📍 *Mesa:* ${table}\n\n`;
             let total = 0;
             cart.forEach(i => {
-                const sub = i.price * i.quantity;
-                msg += `🔸 ${i.quantity}x ${i.name.toUpperCase()}\n   └─ _$${sub.toFixed(2)}_\n\n`;
-                total += sub;
+                msg += `• ${i.quantity}x ${i.name} ($${(i.price * i.quantity).toFixed(2)})\n`;
+                total += i.price * i.quantity;
             });
-            
-            msg += `━━━━━━━━━━━━━━━━\n`;
-            msg += `💰 *TOTAL: $${total.toFixed(2)}*\n`;
-            msg += `━━━━━━━━━━━━━━━━\n`;
-            msg += `_Solicitado vía Menú Digital_`;
-
-            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
+            msg += `\n💰 *TOTAL: $${total.toFixed(2)}*`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        window.onload = () => renderMenu(menuItems);
+        // LOGICA DE TETRIS
+        const canvas = document.getElementById('tetris-canvas');
+        const context = canvas.getContext('2d');
+        const grid = 20;
+        const tetrominoes = {
+            'I': [[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]],
+            'J': [[1,0,0],[1,1,1],[0,0,0]],
+            'L': [[0,0,1],[1,1,1],[0,0,0]],
+            'O': [[1,1],[1,1]],
+            'S': [[0,1,1],[1,1,0],[0,0,0]],
+            'Z': [[1,1,0],[0,1,1],[0,0,0]],
+            'T': [[0,1,0],[1,1,1],[0,0,0]]
+        };
+        const colors = ['#BC6C25', '#5C2E0E', '#D4A373', '#A68A64', '#7A3E15', '#8C7851', '#4A2B10'];
+        let playfield = [];
+        for (let row = -2; row < 20; row++) { playfield[row] = new Array(10).fill(0); }
+        let tetromino = null;
+        let rAF = null;
+        let count = 0;
+
+        function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function rotate(matrix) {
+            const N = matrix.length;
+            const result = matrix.map((row, i) => matrix.map(val => val[i]).reverse());
+            return result;
+        }
+        function isValidMove(matrix, cellRow, cellCol) {
+            for (let r = 0; r < matrix.length; r++) {
+                for (let c = 0; c < matrix[r].length; c++) {
+                    if (matrix[r][c] && (cellCol + c < 0 || cellCol + c >= 10 || cellRow + r >= 20 || playfield[cellRow + r][cellCol + c])) { return false; }
+                }
+            }
+            return true;
+        }
+        function startTetris() {
+            document.getElementById('game-over').classList.add('hidden');
+            playfield = [];
+            for (let row = -2; row < 20; row++) { playfield[row] = new Array(10).fill(0); }
+            tetromino = getNextTetromino();
+            cancelAnimationFrame(rAF);
+            rAF = requestAnimationFrame(loop);
+        }
+        function getNextTetromino() {
+            const names = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
+            const name = names[getRandomInt(0, names.length - 1)];
+            const matrix = tetrominoes[name];
+            const col = 5 - Math.floor(matrix[0].length / 2);
+            const row = name === 'I' ? -1 : -2;
+            return { name, matrix, row, col, color: colors[getRandomInt(0, colors.length - 1)] };
+        }
+        function loop() {
+            rAF = requestAnimationFrame(loop);
+            context.clearRect(0,0,canvas.width,canvas.height);
+            for (let row = 0; row < 20; row++) {
+                for (let col = 0; col < 10; col++) {
+                    if (playfield[row][col]) {
+                        context.fillStyle = playfield[row][col];
+                        context.fillRect(col * grid, row * grid, grid-1, grid-1);
+                    }
+                }
+            }
+            if (tetromino) {
+                if (++count > 35) {
+                    tetromino.row++; count = 0;
+                    if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
+                        tetromino.row--;
+                        placeTetromino();
+                    }
+                }
+                context.fillStyle = tetromino.color;
+                for (let r = 0; r < tetromino.matrix.length; r++) {
+                    for (let c = 0; c < tetromino.matrix[r].length; c++) {
+                        if (tetromino.matrix[r][c]) { context.fillRect((tetromino.col + c) * grid, (tetromino.row + r) * grid, grid-1, grid-1); }
+                    }
+                }
+            }
+        }
+        function placeTetromino() {
+            for (let r = 0; r < tetromino.matrix.length; r++) {
+                for (let c = 0; c < tetromino.matrix[r].length; c++) {
+                    if (tetromino.matrix[r][c]) {
+                        if (tetromino.row + r < 0) { return showGameOver(); }
+                        playfield[tetromino.row + r][tetromino.col + c] = tetromino.color;
+                    }
+                }
+            }
+            for (let row = 19; row >= 0; ) {
+                if (playfield[row].every(cell => !!cell)) {
+                    for (let r = row; r >= 0; r--) { playfield[r] = [...playfield[r-1]]; }
+                    playfield[-2] = new Array(10).fill(0);
+                } else { row--; }
+            }
+            tetromino = getNextTetromino();
+        }
+        function showGameOver() {
+            cancelAnimationFrame(rAF);
+            document.getElementById('game-over').classList.remove('hidden');
+        }
+        function tetrisMove(dc, dr, rot = false) {
+            if (!tetromino) return;
+            if (rot) {
+                const matrix = rotate(tetromino.matrix);
+                if (isValidMove(matrix, tetromino.row, tetromino.col)) { tetromino.matrix = matrix; }
+            } else {
+                if (isValidMove(tetromino.matrix, tetromino.row + dr, tetromino.col + dc)) {
+                    tetromino.row += dr; tetromino.col += dc;
+                } else if (dr > 0) { placeTetromino(); }
+            }
+        }
+
+        window.onload = () => {
+            renderMenu(menuItems);
+            startTetris();
+        };
     </script>
 </body>
 </html>
-
