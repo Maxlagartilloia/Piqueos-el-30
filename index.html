@@ -218,7 +218,7 @@
     </div>
 
     <!-- Alert Custom -->
-    <div id="custom-alert" class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] hidden w-[90%] max-w-sm">
+    <div id="custom-alert" class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] hidden w-[90%] max-sm">
         <div class="bg-[#5C2E0E] text-white px-8 py-4 rounded-3xl shadow-2xl font-bold flex items-center justify-center border-2 border-white/10 text-center">
             <span id="alert-text" class="text-sm">Mensaje</span>
         </div>
@@ -364,7 +364,8 @@
             'Z': [[1,1,0],[0,1,1],[0,0,0]],
             'T': [[0,1,0],[1,1,1],[0,0,0]]
         };
-        const colors = ['#BC6C25', '#5C2E0E', '#D4A373', '#A68A64', '#7A3E15', '#8C7851', '#4A2B10'];
+        // COLORES ACTUALIZADOS A COLORIDO NEON
+        const colors = ['#FF00FF', '#00FFFF', '#FFFF00', '#00FF00', '#FF0000', '#0070FF', '#FF9500'];
         let playfield = [];
         for (let row = -2; row < 20; row++) { playfield[row] = new Array(10).fill(0); }
         let tetromino = null;
