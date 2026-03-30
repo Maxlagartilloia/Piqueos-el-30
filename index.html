@@ -28,9 +28,10 @@
 
         .header-bg {
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), 
-                        url('portada.jpg'); /* ESTO BUSCA TU ARCHIVO EN GITHUB */
+                        url('portada.jpg'); /* Busca tu archivo en la raíz */
             background-size: cover;
             background-position: center;
+            min-height: 400px; /* Más espacio para el logo grande */
         }
 
         .category-tab.active {
@@ -92,21 +93,21 @@
 <body class="pb-28">
 
     <!-- Header / Portada Elegante -->
-    <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden">
-        <div class="relative z-10 flex flex-col items-center">
-            <!-- Logo en círculo blanco puro al doble de tamaño -->
-            <div class="mb-4 w-72 h-72 md:w-80 md:h-80 bg-white rounded-full flex items-center justify-center shadow-2xl p-6 overflow-hidden border-none transform transition-transform hover:scale-105">
-                <img src="logo.png" alt="Logo" class="w-full h-full object-contain" onerror="this.parentElement.style.display='none'">
+    <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden flex flex-col items-center justify-center">
+        <div class="relative z-10 flex flex-col items-center w-full">
+            <!-- Logo en círculo blanco puro al doble de tamaño, cuadrado al centro -->
+            <div class="mb-6 w-64 h-64 md:w-80 md:h-80 bg-white rounded-full flex items-center justify-center shadow-2xl p-4 overflow-hidden border-none transform transition-transform">
+                <img src="logo.png" alt="Logo" class="w-full h-full object-contain" onerror="this.src='https://placehold.co/400x400/FFFFFF/5C2E0E?text=MIA+MELY'">
             </div>
 
-            <h1 class="font-serif text-4xl font-black tracking-tight mb-0">Menu</h1>
-            <p class="text-xs font-bold tracking-[0.3em] text-orange-200 uppercase mt-2 mb-4">Piqueos Mia Mely</p>
+            <h1 class="font-serif text-4xl font-black tracking-tight mb-0 drop-shadow-md">Menu</h1>
+            <p class="text-xs font-bold tracking-[0.3em] text-orange-200 uppercase mt-2 mb-4 drop-shadow-md">Piqueos Mia Mely</p>
             
-            <a href="https://maps.google.com/?q=-0.239231,-76.683868" target="_blank" class="btn-location px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center shadow-lg active:scale-95">
+            <a href="https://maps.google.com/?q=-0.239231,-76.683868" target="_blank" class="btn-location px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center shadow-lg active:scale-95">
                 <i class="fas fa-map-marker-alt mr-2 text-orange-400"></i> Cómo llegar
             </a>
         </div>
-        <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/40 to-transparent"></div>
     </header>
 
     <!-- Navigation -->
@@ -129,11 +130,11 @@
     <section class="mt-20 px-6 mb-12">
         <div class="text-center mb-6">
             <h2 class="font-serif text-2xl font-black text-[#5C2E0E]">¿Esperando tu pedido?</h2>
-            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">¡Elimina filas para subir de nivel!</p>
-            <p id="tetris-level" class="text-[12px] font-black text-[#BC6C25] mt-1 uppercase">Nivel 1</p>
+            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">¡Sube de nivel eliminando filas!</p>
+            <p id="tetris-level" class="text-[12px] font-black text-[#BC6C25] mt-1 uppercase tracking-tighter">Nivel 1</p>
         </div>
         
-        <div class="bg-white p-6 rounded-[2.5rem] shadow-xl border border-orange-50 relative">
+        <div class="bg-white p-6 rounded-[2.5rem] shadow-xl border border-orange-50 relative max-w-xs mx-auto">
             <div id="game-over" class="hidden absolute inset-0 bg-black/80 z-20 rounded-[2.5rem] flex flex-col items-center justify-center text-white">
                 <h3 class="text-2xl font-black mb-4 uppercase">¡Juego Terminado!</h3>
                 <button onclick="startTetris()" class="bg-[#BC6C25] px-8 py-3 rounded-2xl font-black uppercase text-xs">Reiniciar</button>
@@ -162,7 +163,7 @@
 
     <!-- Footer Action -->
     <div id="cart-btn-container" class="fixed bottom-8 left-0 right-0 flex justify-center z-40 pointer-events-none">
-        <button onclick="toggleCart()" class="pointer-events-auto h-16 px-8 bg-[#5C2E0E] text-white rounded-3xl flex items-center shadow-lg border-2 border-white/20 transition-all active:scale-95 group">
+        <button onclick="toggleCart()" class="pointer-events-auto h-16 px-8 bg-[#5C2E0E] text-white rounded-3xl flex items-center shadow-2xl border-2 border-white/20 transition-all active:scale-95 group">
             <div class="relative mr-4">
                 <i class="fas fa-shopping-bag text-xl"></i>
                 <span id="cart-count" class="absolute -top-3 -right-3 bg-white text-[#5C2E0E] text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
@@ -174,8 +175,8 @@
     </div>
 
     <!-- Modal del Carrito -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end sm:items-center justify-center transition-all">
-        <div class="bg-white w-full sm:max-w-md rounded-t-[3rem] sm:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end sm:items-center justify-center transition-all p-4">
+        <div class="bg-white w-full sm:max-w-md rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
             <div class="p-8 border-b flex justify-between items-start bg-[#fcf9f5]">
                 <div>
                     <h2 class="font-serif text-3xl font-black text-[#5C2E0E]">Tu Orden</h2>
@@ -225,7 +226,7 @@
     <script>
         const WHATSAPP_NUMBER = "593992228270";
 
-        // CONFIGURACIÓN DE IMÁGENES LOCALES
+        // IMÁGENES CONFIGURADAS (Asegúrate de subirlas con estos nombres)
         const menuItems = [
             { id: 1, category: 'Principal', name: 'Conchas Asadas Clásicas', price: 7.00, desc: 'Conchas asadas al carbón, patacones y ensalada.', img: 'conchas_1.jpg' },
             { id: 2, category: 'Principal', name: 'Combo Conchas Especial', price: 8.50, desc: 'Conchas + arroz, menestra, patacones y ensalada.', img: 'conchas_2.jpg' },
@@ -253,7 +254,7 @@
                 card.className = "item-card bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] flex flex-row h-36 border border-gray-50";
                 card.innerHTML = `
                     <div class="w-2/5 h-full relative overflow-hidden">
-                        <img src="${item.img}" class="w-full h-full object-cover" alt="${item.name}" onerror="this.src='https://placehold.co/400x400/5C2E0E/FFF?text=Cargando...'">
+                        <img src="${item.img}" class="w-full h-full object-cover" alt="${item.name}" onerror="this.src='https://placehold.co/400x400/5C2E0E/FFFFFF?text=Piqueos'">
                         <div class="absolute inset-0 bg-gradient-to-r from-transparent to-white/10"></div>
                     </div>
                     <div class="w-3/5 p-4 flex flex-col justify-between">
@@ -352,7 +353,7 @@
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // --- LÓGICA DE TETRIS MEJORADA CON SONIDO Y COLOR ---
+        // --- LÓGICA DE TETRIS (MEJORADO CON SONIDO Y NIVELES) ---
         const canvas = document.getElementById('tetris-canvas');
         const context = canvas.getContext('2d');
         const grid = 20;
