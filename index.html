@@ -44,7 +44,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* AJUSTE DE CUADRO DE IMAGEN PARA QUE SE VEA ELEGANTE */
+        /* AJUSTE AUTOMÁTICO DE IMÁGENES EN LAS TARJETAS */
         .item-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
@@ -62,15 +62,18 @@
         }
 
         .item-image-container {
-            width: 45%; /* Espacio para que la imagen se vea grande y cuadrada */
+            width: 45%; 
             height: 100%;
             overflow: hidden;
+            background-color: #f3f4f6; /* Color de fondo mientras carga */
         }
 
         .item-image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* ESTO CUADRA Y AJUSTA LA IMAGEN AL ESPACIO */
+            display: block;
+            object-fit: cover; /* AJUSTE AUTOMÁTICO: Llena el cuadro y centra la imagen */
+            object-position: center;
         }
 
         .btn-location {
@@ -106,7 +109,7 @@
     <!-- Header / Portada -->
     <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden flex flex-col items-center justify-center">
         <div class="relative z-10 flex flex-col items-center w-full">
-            <!-- Logo GRANDE (Doble de tamaño) -->
+            <!-- Logo GRANDE en círculo blanco -->
             <div class="mb-6 w-72 h-72 md:w-96 md:h-96 bg-white rounded-full flex items-center justify-center shadow-2xl p-8 overflow-hidden border-none transform transition-transform">
                 <img src="logo.png" alt="Logo" class="w-full h-full object-contain" onerror="this.src='https://placehold.co/400x400/FFFFFF/5C2E0E?text=MIA+MELY'">
             </div>
@@ -152,10 +155,10 @@
             <canvas id="tetris-canvas" width="200" height="400"></canvas>
             <div class="mt-6 flex justify-center gap-4">
                 <div class="grid grid-cols-3 gap-3">
-                    <button onclick="tetrisMove(0, -1, true)" class="col-start-2 bg-[#5C2E0E] text-white w-12 h-12 rounded-xl flex items-center justify-center"><i class="fas fa-redo"></i></button>
-                    <button onclick="tetrisMove(-1, 0)" class="col-start-1 row-start-2 bg-[#5C2E0E] text-white w-12 h-12 rounded-xl flex items-center justify-center"><i class="fas fa-chevron-left"></i></button>
-                    <button onclick="tetrisMove(0, 1)" class="col-start-2 row-start-2 bg-[#5C2E0E] text-white w-12 h-12 rounded-xl flex items-center justify-center"><i class="fas fa-chevron-down"></i></button>
-                    <button onclick="tetrisMove(1, 0)" class="col-start-3 row-start-2 bg-[#5C2E0E] text-white w-12 h-12 rounded-xl flex items-center justify-center"><i class="fas fa-chevron-right"></i></button>
+                    <button onclick="tetrisMove(0, -1, true)" class="col-start-2 bg-[#5C2E0E] text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-md active:scale-90"><i class="fas fa-redo"></i></button>
+                    <button onclick="tetrisMove(-1, 0)" class="col-start-1 row-start-2 bg-[#5C2E0E] text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-md active:scale-90"><i class="fas fa-chevron-left"></i></button>
+                    <button onclick="tetrisMove(0, 1)" class="col-start-2 row-start-2 bg-[#5C2E0E] text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-md active:scale-90"><i class="fas fa-chevron-down"></i></button>
+                    <button onclick="tetrisMove(1, 0)" class="col-start-3 row-start-2 bg-[#5C2E0E] text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-md active:scale-90"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </div>
@@ -163,12 +166,12 @@
 
     <!-- Botón de Carrito Flotante -->
     <div id="cart-btn-container" class="fixed bottom-8 left-0 right-0 flex justify-center z-40 pointer-events-none">
-        <button onclick="toggleCart()" class="pointer-events-auto h-16 px-8 bg-[#5C2E0E] text-white rounded-3xl flex items-center shadow-2xl border-2 border-white/20 active:scale-95">
+        <button onclick="toggleCart()" class="pointer-events-auto h-16 px-8 bg-[#5C2E0E] text-white rounded-3xl flex items-center shadow-2xl border-2 border-white/20 active:scale-95 transition-all">
             <div class="relative mr-4">
                 <i class="fas fa-shopping-bag text-xl"></i>
                 <span id="cart-count" class="absolute -top-3 -right-3 bg-white text-[#5C2E0E] text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full">0</span>
             </div>
-            <span class="font-bold text-sm tracking-wide mr-4">REVISAR</span>
+            <span class="font-bold text-sm tracking-wide mr-4 uppercase">Revisar Pedido</span>
             <div class="h-6 w-[1px] bg-white/20 mr-4"></div>
             <span id="cart-total-floating" class="font-black text-lg">$0.00</span>
         </button>
@@ -182,7 +185,10 @@
                     <h2 class="font-serif text-3xl font-black text-[#5C2E0E]">Tu Orden</h2>
                     <p class="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">Piqueos Mia Mely</p>
                 </div>
-                <button onclick="toggleCart()" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-gray-400"><i class="fas fa-times"></i></button>
+                <div class="flex flex-col items-end gap-2">
+                    <button onclick="toggleCart()" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-gray-400"><i class="fas fa-times"></i></button>
+                    <button onclick="clearCart()" class="text-[9px] font-black text-red-500 uppercase tracking-tighter border-b border-red-100">Vaciar</button>
+                </div>
             </div>
             <div id="cart-items" class="flex-1 overflow-y-auto p-8 space-y-4"></div>
             <div class="p-8 bg-[#fcf9f5] border-t-2 border-orange-50 space-y-6">
@@ -194,7 +200,7 @@
                     <span class="text-gray-400 font-bold text-xs uppercase tracking-widest">Total</span>
                     <span id="cart-total" class="text-4xl font-black text-[#5C2E0E]">$0.00</span>
                 </div>
-                <button onclick="sendOrder()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-5 rounded-[2rem] flex items-center justify-center shadow-xl transform active:scale-95">
+                <button onclick="sendOrder()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-5 rounded-[2rem] flex items-center justify-center shadow-xl transform active:scale-95 transition-all">
                     <i class="fab fa-whatsapp mr-3 text-2xl"></i> CONFIRMAR PEDIDO
                 </button>
             </div>
@@ -284,9 +290,9 @@
                     <div class="flex items-center justify-between p-4 bg-orange-50/20 rounded-3xl border border-gray-100">
                         <div class="flex-1 pr-2">
                             <h4 class="font-black text-gray-800 text-[10px] uppercase">${item.name}</h4>
-                            <p class="text-[10px] font-black text-orange-900/30">$${item.price.toFixed(2)}</p>
+                            <p class="text-[10px] font-black text-orange-900/40 mt-0.5">$${item.price.toFixed(2)}</p>
                         </div>
-                        <div class="flex items-center space-x-3 bg-white p-1.5 rounded-2xl shadow-sm">
+                        <div class="flex items-center space-x-3 bg-white p-1.5 rounded-2xl border border-gray-100 shadow-sm">
                             <button onclick="changeQty(${item.id}, -1)" class="w-7 h-7 flex items-center justify-center text-gray-400"><i class="fas fa-minus text-[8px]"></i></button>
                             <span class="font-black text-xs text-[#5C2E0E]">${item.quantity}</span>
                             <button onclick="changeQty(${item.id}, 1)" class="w-7 h-7 flex items-center justify-center text-[#BC6C25]"><i class="fas fa-plus text-[8px]"></i></button>
@@ -309,7 +315,7 @@
             const name = document.getElementById('client-name').value.trim();
             const table = document.getElementById('table-number').value.trim();
             if(!name || !table || cart.length === 0) return;
-            let msg = `*ORDEN - MIA MELY*\n👤 *Cliente:* ${name.toUpperCase()}\n📍 *Mesa:* ${table}\n\n`;
+            let msg = `*MIA MELY - ORDEN*\n👤 *Cliente:* ${name.toUpperCase()}\n📍 *Mesa:* ${table}\n\n`;
             cart.forEach(i => {
                 msg += `• ${i.quantity}x ${i.name} ($${(i.price * i.quantity).toFixed(2)})\n`;
             });
