@@ -107,22 +107,47 @@
 <body class="pb-28">
 
     <!-- Header / Portada -->
-    <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden flex flex-col items-center justify-center">
-        <div class="relative z-10 flex flex-col items-center w-full">
-            <!-- Logo GRANDE en círculo blanco -->
-            <div class="mb-6 w-72 h-72 md:w-96 md:h-96 bg-white rounded-full flex items-center justify-center shadow-2xl p-8 overflow-hidden border-none transform transition-transform">
-                <img src="logo.png" alt="Logo" class="w-full h-full object-contain" onerror="this.src='https://placehold.co/400x400/FFFFFF/5C2E0E?text=MIA+MELY'">
-            </div>
+   <header class="header-bg text-white pt-10 pb-14 px-6 text-center rounded-b-[4rem] shadow-2xl relative overflow-hidden flex flex-col items-center justify-center">
 
-            <h1 class="font-serif text-5xl font-black tracking-tight mb-0 drop-shadow-md">Menu</h1>
-            <p class="text-sm font-bold tracking-[0.3em] text-orange-200 uppercase mt-2 mb-4 drop-shadow-md">Piqueos Mia Mely</p>
-            
-            <a href="https://maps.google.com/?q=-0.239231,-76.683868" target="_blank" class="btn-location px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center shadow-lg active:scale-95">
-                <i class="fas fa-map-marker-alt mr-2 text-orange-400"></i> Cómo llegar
-            </a>
+    <div class="relative z-10 flex flex-col items-center w-full">
+
+        <!-- Logo optimizado -->
+        <div class="mb-6 w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 
+            bg-white/70 backdrop-blur-xl 
+            rounded-full flex items-center justify-center 
+            shadow-[0_20px_60px_rgba(0,0,0,0.6)] 
+            p-3 border border-white/20">
+
+            <img src="logo.png" alt="Logo"
+                class="w-full h-full object-contain"
+                onerror="this.src='https://placehold.co/400x400/FFFFFF/5C2E0E?text=MIA+MELY'">
         </div>
-        <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/40 to-transparent"></div>
-    </header>
+
+        <!-- Título -->
+        <h1 class="font-serif text-4xl sm:text-5xl font-black tracking-tight mb-1 drop-shadow-lg">
+            Menú
+        </h1>
+
+        <!-- Subtítulo -->
+        <p class="text-xs sm:text-sm font-bold tracking-[0.3em] text-orange-200 uppercase mt-2 mb-5 drop-shadow-md">
+            Piqueos Mia Mely
+        </p>
+        
+        <!-- Botón -->
+        <a href="https://maps.google.com/?q=-0.239231,-76.683868" 
+           target="_blank" 
+           class="btn-location px-6 py-3 rounded-full text-[11px] font-black uppercase tracking-widest flex items-center shadow-xl active:scale-95 hover:scale-105 transition-all duration-300">
+
+            <i class="fas fa-map-marker-alt mr-2 text-orange-400"></i> 
+            Cómo llegar
+        </a>
+
+    </div>
+
+    <!-- Degradado inferior -->
+    <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black/50 to-transparent"></div>
+
+</header>
 
     <!-- Navegación -->
     <nav class="px-4 -mt-8 sticky top-2 z-30">
